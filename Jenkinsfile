@@ -3,7 +3,6 @@ pipeline {
   stages {
     stage('Pull Repository') {
       steps {
-        cleanWs()
         checkout([$class: 'GitSCM', branches: [[name: 'master']], doGenerateSubmoduleConfigurations: false, submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'cd-deploy-key', url: params.repo_https]]])
       }
     }
