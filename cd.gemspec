@@ -1,7 +1,7 @@
 require_relative 'lib/version.rb'
 
 Gem::Specification.new do |s|
-  s.name        = 'jenkins_docker'
+  s.name        = 'continuous_deploy'
   s.version     = Test::VERSION
   s.date        = '2020-02-22'
   s.summary     = "A Test gem to build using Jenkins"
