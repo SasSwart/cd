@@ -11,6 +11,9 @@ services:
     - JAVA_OPTS="-XX:MaxPermSize=512m -Xms512m -Xmx1024m"
     links:
     - agent
+    networks:
+    - gems
+
   agent:
     build: ./agent
     links:
@@ -19,6 +22,9 @@ services:
     - 22
     ports:
     - "22"
+    networks:
+    - gems
+
   geminabox:
     build: ./geminabox
     expose:
@@ -26,3 +32,8 @@ services:
     ports:
     - "22"
     - "8081:8080"
+    networks:
+    - gems
+
+networks:
+  gems:
