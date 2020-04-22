@@ -8,12 +8,12 @@ pipeline {
     stage('Pull Repository') {
       steps {
         sh "echo $DEPLOY_KEY > ./key; chmod 0600 ./key"
-        sh "git clone --branch ${params.repo_https} ${params.repo_https} ."
+        sh "git clone --branch ${params.repo_https} ${params.repo_https} ./target_gem"
       }
     }
     stage('Build Gem') {
       steps {
-        sh 'gem build *.gemspec'
+        sh 'gem build ./target_gem/*.gemspec'
       }
     }
     stage('Upload Gem') {
