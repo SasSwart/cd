@@ -7,6 +7,7 @@ pipeline {
   stages {
     stage('Pull Repository') {
       steps {
+        cleanWs()
         sh "echo $DEPLOY_KEY > ./key; chmod 0600 ./key"
         sh "git clone --branch ${params.ref} ${params.repo_https} ./target_gem"
       }
@@ -20,6 +21,11 @@ pipeline {
       steps {
         sh 'scp *.gem geminabox:/var/geminabox-data/gems'
         sh 'ssh root@geminabox gem generate_index -d /var/geminabox-data/'
+      }
+    }
+    stage('Cleanup') {
+      steps {
+        cleanWs()
       }
     }
   }
