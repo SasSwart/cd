@@ -8,7 +8,7 @@ pipeline {
     stage('Pull Repository') {
       steps {
         sh "echo $DEPLOY_KEY > ./key; chmod 0600 ./key"
-        sh "git clone --branch ${params.repo_https} ${params.repo_https} ./target_gem"
+        sh "git clone --branch ${params.ref} ${params.repo_https} ./target_gem"
       }
     }
     stage('Build Gem') {
