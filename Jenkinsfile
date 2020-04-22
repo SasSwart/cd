@@ -1,9 +1,14 @@
 pipeline {
   agent any
+  environment {
+      DEPLOY_KEY = credentials('cd-deploy-key')
+      GIT_SSH_COMMAND = 'ssh -i ./key'
+  }
   stages {
     stage('Pull Repository') {
       steps {
-        checkout([$class: 'GitSCM', branches: [[name: params.repo_https]], doGenerateSubmoduleConfigurations: false, submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'cd-deploy-key', url: params.repo_https]]])
+        sh "echo $DEPLOY_KEY > ./key; chmod 0600 ./key"
+        sh "git clone --branch ${params.repo_https} ${params.repo_https} ."
       }
     }
     stage('Build Gem') {
