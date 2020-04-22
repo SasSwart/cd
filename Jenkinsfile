@@ -3,7 +3,8 @@ pipeline {
   stages {
     stage('Pull Repository') {
       steps {
-        checkout([$class: 'GitSCM', branches: [[name: 'master']], doGenerateSubmoduleConfigurations: false, submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'cd-deploy-key', url: params.repo_https]]])
+        cleanWs()
+        sh 'git clone --branch ${params.ref} ${params.repo_https} .'
       }
     }
     stage('Build Gem') {
@@ -17,8 +18,12 @@ pipeline {
         sh 'ssh root@geminabox gem generate_index -d /var/geminabox-data/'
       }
     }
+    stage('Cleanup') {
+      cleanWs()
+    }
   }
   parameters {
     string(name: 'repo_https', description: 'The HTTPS url of the repository for which you would like to build a gem', defaultValue: 'https://github.com/SasSwart/cd')
+    string(name: 'ref', description: 'The branch or tag to clone for build', defaultValue: 'master')
   }
 }
