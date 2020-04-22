@@ -19,7 +19,7 @@ pipeline {
     }
     stage('Upload Gem') {
       steps {
-        sh 'scp *.gem geminabox:/var/geminabox-data/gems'
+        sh 'scp ./target_gem/*.gem geminabox:/var/geminabox-data/gems'
         sh 'ssh root@geminabox gem generate_index -d /var/geminabox-data/'
       }
     }
