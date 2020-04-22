@@ -3,7 +3,7 @@ pipeline {
   stages {
     stage('Pull Repository') {
       steps {
-        checkout([$class: 'GitSCM', branches: [[name: 'master']], doGenerateSubmoduleConfigurations: false, submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'cd-deploy-key', url: params.repo_https]]])
+        checkout([$class: 'GitSCM', branches: [[name: params.repo_https]], doGenerateSubmoduleConfigurations: false, submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'cd-deploy-key', url: params.repo_https]]])
       }
     }
     stage('Build Gem') {
@@ -20,5 +20,6 @@ pipeline {
   }
   parameters {
     string(name: 'repo_https', description: 'The HTTPS url of the repository for which you would like to build a gem', defaultValue: 'https://github.com/SasSwart/cd')
+    string(name: 'ref', description: 'Tag, Branch or commit', defaultValue: 'master')
   }
 }
