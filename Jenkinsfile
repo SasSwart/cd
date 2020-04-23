@@ -9,7 +9,7 @@ pipeline {
       steps {
         cleanWs()
         sh "echo $DEPLOY_KEY > ./key; chmod 0600 ./key"
-        sh "GIT_SSH_COMMAND='ssh -i ./id_rsa' git clone --branch ${params.ref} ${params.repo_https} ./target_gem"
+        sh "GIT_SSH_COMMAND='ssh -i ./key' git clone --branch ${params.ref} ${params.repo_https} ./target_gem"
       }
     }
     stage('Build Gem') {
