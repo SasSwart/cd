@@ -4,7 +4,7 @@ pipeline {
     stage('Pull Repository') {
       steps {
         cleanWs()
-        checkout([$class: 'GitSCM', branches: [[name: '**']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'cd-deploy-key', name: 'origin', refspec: "+refs/heads/${params.ref}:refs/remotes/origin/${params.ref}", url: params.repo]]])
+        checkout([$class: 'GitSCM', branches: [[name: '**']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'cd-deploy-key', name: 'origin', refspec: "+refs/tags/${params.ref}:refs/remotes/origin/tags${params.ref}", url: params.repo]]])
       }
     }
     stage('Build Gem') {
