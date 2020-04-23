@@ -1,15 +1,10 @@
 pipeline {
   agent any
-  environment {
-      DEPLOY_KEY = credentials('cd-deploy-key')
-      GIT_SSH_COMMAND = 'ssh -i ./key'
-  }
   stages {
     stage('Pull Repository') {
       steps {
         cleanWs()
-        sh "echo $DEPLOY_KEY > ./key; chmod 0600 ./key"
-        sh "GIT_SSH_COMMAND='ssh -i ./key' git clone --branch ${params.ref} ${params.repo_https} ./target_gem"
+        git branch: params.ref, credentialsId: 'cd-deploy-key', url: params.repo
       }
     }
     stage('Build Gem') {
@@ -30,7 +25,7 @@ pipeline {
     }
   }
   parameters {
-    string(name: 'repo_https', description: 'The HTTPS url of the repository for which you would like to build a gem', defaultValue: 'https://github.com/SasSwart/cd')
+    string(name: 'repo', description: 'The HTTPS url of the repository for which you would like to build a gem', defaultValue: 'https://github.com/SasSwart/cd')
     string(name: 'ref', description: 'Tag, Branch or commit', defaultValue: 'master')
   }
 }
